@@ -1,0 +1,13 @@
+.packer_*
+local/configure_cpu_isolation.py
+local/cpufreq_ondemand
+local/cpufreq_performance
+local/hard_rezero
+local/micromamba
+local/pi3hat_spine
+local/stop_servos
+local/upkie_tool
+local/vcgenall
+raspios_upkie*.img
+raspios_upkie*.img.sha1
+raspios_upkie*.img.sha256

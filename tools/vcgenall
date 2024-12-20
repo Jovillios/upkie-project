@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Copyright 2022 Stéphane Caron
+
+echo -n "should be: throttled=0x0...           "
+sudo vcgencmd get_throttled
+
+echo -n "should be frequency(48)=1500398464... "
+sudo vcgencmd measure_clock arm
+
+echo -n "should be frequency(1)=500000992...   "
+sudo vcgencmd measure_clock core
+
+echo -n "should be frequency(46)=500000992...  "
+sudo vcgencmd measure_clock v3d
+
+echo -n "should be volt=0.8700V...             "
+sudo vcgencmd measure_volts core
+
+echo -n "should be volt=1.100V...              "
+sudo vcgencmd measure_volts sdram_c
+
+echo -n "should be volt=1.100V...              "
+sudo vcgencmd measure_volts sdram_i
+
+echo -n "should be volt=1.100V...              "
+sudo vcgencmd measure_volts sdram_p
+
+echo -n "should be strictly <80.0'C...         "
+sudo vcgencmd measure_temp

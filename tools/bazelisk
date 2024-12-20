@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Copyright 2018 The Bazel Authors
+# Copyright 2022 Stéphane Caron
+# Copyright 2023 Inria
+# SPDX-License-Identifier: Apache-2.0
+
+set -euo pipefail
+
+OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
+readonly OS
+
+ARCH="$(uname -m)"
+if [ "${ARCH}" == "x86_64" ]; then
+    ARCH="amd64"
+elif [ "${ARCH}" == "aarch64" ]; then
+    ARCH="arm64"
+fi
+readonly ARCH
+
+echo "Detected platform: ${OS} (${ARCH})"
+
+# Value of BAZELISK_GITHUB_TOKEN is set as a secret in the GitHub workflow.
+readonly BAZELISK_VERSION="v1.20.0"
+readonly BAZELISK_URL="https://github.com/bazelbuild/bazelisk/releases/download/${BAZELISK_VERSION}/bazelisk-${OS}-${ARCH}"
+
+CURDIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+readonly CURDIR
+
+BAZEL="${CURDIR}/bazel"
+readonly BAZEL
+
+if [ -f "${BAZEL}" ]; then
+    echo "Using existing Bazel binary from ${BAZEL}..."
+else
+    echo "Downloading Bazel binary from ${BAZELISK_URL}..."
+    curl -L -Sf --progress-bar -o "${BAZEL}" "${BAZELISK_URL}"
+    chmod a+x "${BAZEL}"
+fi
+
+set -x
+"${BAZEL}" version
+"${BAZEL}" "${@:1:99}"

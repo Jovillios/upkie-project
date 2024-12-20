@@ -1,0 +1,98 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "upkie"
+readme = "README.md"
+authors = [
+    {name = "Stéphane Caron", email = "stephane.caron@normalesup.org"},
+]
+maintainers = [
+    {name = "Stéphane Caron", email = "stephane.caron@normalesup.org"},
+]
+dynamic = ['version', 'description']
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Robot Framework :: Library",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "gymnasium >= 0.29.1",
+    "loop-rate-limiters >= 1.0.0",
+    "msgpack >= 1.0.2",
+    "numpy >= 1.24.3",
+    "scipy >= 1.10.0",
+    "upkie_description >= 2.1.0",
+]
+keywords = ["wheeled", "biped", "robot", "balance", "motion", "control", "robotics"]
+
+[project.urls]
+Homepage = "https://hackaday.io/project/185729-upkie-wheeled-biped-robots"
+Documentation = "https://upkie.github.io/upkie/"
+Source = "https://github.com/upkie/upkie"
+Tracker = "https://github.com/upkie/upkie/issues"
+Changelog = "https://github.com/upkie/upkie/blob/main/CHANGELOG.md"
+
+[tool.flit.sdist]
+exclude = [
+    "**/*.sh",
+    "**/BUILD",
+    "**/tests/*",
+    ".bazel*",
+    ".clang-format",
+    ".git*",
+    "CONTRIBUTING.md",
+    "CPPLINT.cfg",
+    "WORKSPACE",
+    "examples/",
+    "logs/",
+    "spines/",
+    "tools/",
+    "upkie/cpp",
+]
+include = [
+    "upkie/config/*.py",
+    "upkie/envs/*.py",
+    "upkie/utils/*.py",
+]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+select = [
+    # pyflakes
+    "F",
+    # pycodestyle
+    "E",
+    "W",
+    # isort
+    "I001",
+    # pydocstyle
+    "D"
+]
+ignore = [
+    "D100",  # we use ## Doxygen comments: https://stackoverflow.com/q/71380065
+    "D104",  # we use ## Doxygen comments: https://stackoverflow.com/q/71380065
+    "D204",  # ruff does not know we use Doxygen docstrings
+    "D205",  # ruff does not know we use Doxygen docstrings
+    "D401",  # good for methods but not for class docstrings
+    "D405",  # British-style section names are also "proper"!
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*.py" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
